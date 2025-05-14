@@ -33,7 +33,12 @@ public class AasmRegisterAllocator implements RegisterAllocator {
             }
         }
         if (needsRegister(node)) {
-            this.registers.put(node, new VirtualRegister(this.id++));
+            if (this.id == 0) {
+                this.registers.put(node, new HardwareRegister("rdi"));
+                ++this.id;
+            } else {
+                this.registers.put(node, new VirtualRegister(this.id++));
+            }
         }
     }
 

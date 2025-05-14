@@ -30,11 +30,8 @@ public class CodeGenerator {
         for (IrGraph graph : program) {
             AasmRegisterAllocator allocator = new AasmRegisterAllocator();
             Map<Node, Register> registers = allocator.allocateRegisters(graph);
-            builder.append("function ")
-                .append(graph.name())
-                .append(" {\n");
+            builder.append("_").append(graph.name()).append(":\n");
             generateForGraph(graph, builder, registers);
-            builder.append("}");
         }
         return builder.toString();
     }
@@ -57,12 +54,17 @@ public class CodeGenerator {
             case MulNode mul -> binary(builder, registers, mul, "mul");
             case DivNode div -> binary(builder, registers, div, "div");
             case ModNode mod -> binary(builder, registers, mod, "mod");
-            case ReturnNode r -> builder.repeat(" ", 2).append("ret ")
-                .append(registers.get(predecessorSkipProj(r, ReturnNode.RESULT)));
-            case ConstIntNode c -> builder.repeat(" ", 2)
-                .append(registers.get(c))
-                .append(" = const ")
-                .append(c.value());
+            case ReturnNode r -> builder.repeat(" ", 4)
+                .append("movq ")
+                .append(registers.get(predecessorSkipProj(r, ReturnNode.RESULT)))
+                .append(", ")
+                .append("%rax\n").repeat(" ", 4)
+                .append("ret");
+            case ConstIntNode c -> builder.repeat(" ", 4)
+                .append("movq $")
+                .append(c.value())
+                .append(", ")
+                .append(registers.get(c));
             case Phi _ -> throw new UnsupportedOperationException("phi");
             case Block _, ProjNode _, StartNode _ -> {
                 // do nothing, skip line break

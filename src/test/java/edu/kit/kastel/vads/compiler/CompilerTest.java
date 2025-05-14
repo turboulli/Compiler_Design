@@ -46,10 +46,11 @@ public class CompilerTest {
         """;
 
         String expectedOutput = """
-        function main {
-          %0 = const 0
-          ret %0
-        }""";
+        _main:
+            movq $0, %0
+            movq %0, %rax
+            ret
+        """;
 
         assertEquals(expectedOutput, generateAssembly(input));
     }

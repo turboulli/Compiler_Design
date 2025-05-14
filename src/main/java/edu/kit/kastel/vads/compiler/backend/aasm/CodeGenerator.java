@@ -1,6 +1,7 @@
 package edu.kit.kastel.vads.compiler.backend.aasm;
 
 import edu.kit.kastel.vads.compiler.backend.regalloc.Register;
+import edu.kit.kastel.vads.compiler.backend.regalloc.RegisterAllocator;
 import edu.kit.kastel.vads.compiler.ir.IrGraph;
 import edu.kit.kastel.vads.compiler.ir.node.AddNode;
 import edu.kit.kastel.vads.compiler.ir.node.BinaryOperationNode;
@@ -24,7 +25,7 @@ import java.util.Set;
 import static edu.kit.kastel.vads.compiler.ir.util.NodeSupport.predecessorSkipProj;
 
 public class CodeGenerator {
-    public String generateCode(AasmRegisterAllocator allocator, List<IrGraph> program) {
+    public String generateCode(RegisterAllocator allocator, List<IrGraph> program) {
         StringBuilder builder = new StringBuilder();
 
         builder

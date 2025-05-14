@@ -10,5 +10,6 @@ main:
     syscall
 
 _main:
-    movq $0, %rax
+    movq $0, %rdi
+    movq %rdi, %rax
     ret

@@ -76,8 +76,6 @@ public class Main {
         } catch (IOException | InterruptedException exception) {
             exception.printStackTrace();
         }
-
-        Files.writeString(output, assembly);
     }
 
     private static ProgramTree lexAndParse(Path input) throws IOException {

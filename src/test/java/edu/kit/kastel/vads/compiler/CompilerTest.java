@@ -57,8 +57,8 @@ public class CompilerTest {
             movq $0x3C, %rax
             syscall
         _main:
-            movq $0, %rdi
-            movq %rdi, %rax
+            movq $0, %0
+            movq %0, %rax
             ret
         """;
 

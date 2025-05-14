@@ -159,13 +159,7 @@ public class CodeGenerator {
                 .append(", ")
                 .append(registers.get(node));
         } else {
-            builder.repeat(" ", 4).append(registers.get(node))
-                .append(" = ")
-                .append(opcode)
-                .append(" ")
-                .append(registers.get(predecessorSkipProj(node, BinaryOperationNode.LEFT)))
-                .append(" ")
-                .append(registers.get(predecessorSkipProj(node, BinaryOperationNode.RIGHT)));
+            throw new UnsupportedOperationException(opcode);
         }
     }
 }

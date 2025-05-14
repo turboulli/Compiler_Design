@@ -69,7 +69,7 @@ public class CompilerTest {
     public void testAdd() {
         String input = """
         int main() {
-            return 1 + 1;
+            return 1 + 2;
         }
         """;
 
@@ -84,8 +84,9 @@ public class CompilerTest {
             syscall
         _main:
             movq $1, %0
-            %1 = add %0 %0
-            movq %1, %rax
+            movq $2, %1
+            %2 = add %0 %1
+            movq %2, %rax
             ret
         """;
 

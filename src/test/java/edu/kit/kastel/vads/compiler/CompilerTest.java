@@ -31,7 +31,7 @@ public class CompilerTest {
         syscall
     """;
 
-    String generateAssembly(String input) {
+    private String generateAssembly(String input) {
         Lexer lexer = Lexer.forString(input);
 
         TokenSource tokenSource = new TokenSource(lexer);

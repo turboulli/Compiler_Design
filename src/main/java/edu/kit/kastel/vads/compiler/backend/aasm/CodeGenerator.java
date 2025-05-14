@@ -93,7 +93,7 @@ public class CodeGenerator {
         BinaryOperationNode node,
         String opcode
     ) {
-        builder.repeat(" ", 2).append(registers.get(node))
+        builder.repeat(" ", 4).append(registers.get(node))
             .append(" = ")
             .append(opcode)
             .append(" ")

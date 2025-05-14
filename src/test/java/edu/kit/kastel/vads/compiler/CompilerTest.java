@@ -64,4 +64,31 @@ public class CompilerTest {
 
         assertEquals(expectedOutput, generateAssembly(input));
     }
+
+    @Test
+    public void testAdd() {
+        String input = """
+        int main() {
+            return 1 + 1;
+        }
+        """;
+
+        String expectedOutput = """
+        .global main
+        .global _main
+        .text
+        main:
+            call _main
+            movq %rax, %rdi
+            movq $0x3C, %rax
+            syscall
+        _main:
+            movq $1, %0
+            %1 = add %0 %0
+            movq %1, %rax
+            ret
+        """;
+
+        assertEquals(expectedOutput, generateAssembly(input));
+    }
 }

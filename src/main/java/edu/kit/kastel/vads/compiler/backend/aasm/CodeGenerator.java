@@ -93,12 +93,26 @@ public class CodeGenerator {
         BinaryOperationNode node,
         String opcode
     ) {
-        builder.repeat(" ", 4).append(registers.get(node))
-            .append(" = ")
-            .append(opcode)
-            .append(" ")
-            .append(registers.get(predecessorSkipProj(node, BinaryOperationNode.LEFT)))
-            .append(" ")
-            .append(registers.get(predecessorSkipProj(node, BinaryOperationNode.RIGHT)));
+        if (opcode == "add") {
+            builder.repeat(" ", 4)
+                .append("movq ")
+                .append(registers.get(predecessorSkipProj(node, BinaryOperationNode.LEFT)))
+                .append(", ")
+                .append(registers.get(node))
+                .append("\n").repeat(" ", 4)
+                .append("addq ")
+                .append(registers.get(predecessorSkipProj(node, BinaryOperationNode.RIGHT)))
+                .append(", ")
+                .append(registers.get(node));
+        } else {
+            builder.repeat(" ", 4).append(registers.get(node))
+                .append(" = ")
+                .append(opcode)
+                .append(" ")
+                .append(registers.get(predecessorSkipProj(node, BinaryOperationNode.LEFT)))
+                .append(" ")
+                .append(registers.get(predecessorSkipProj(node, BinaryOperationNode.RIGHT)));
+        }
+
     }
 }

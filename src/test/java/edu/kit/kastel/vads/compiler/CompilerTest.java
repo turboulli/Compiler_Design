@@ -85,7 +85,8 @@ public class CompilerTest {
         _main:
             movq $1, %0
             movq $2, %1
-            %2 = add %0 %1
+            movq %0, %2
+            addq %1, %2
             movq %2, %rax
             ret
         """;

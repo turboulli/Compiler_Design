@@ -20,6 +20,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CompilerTest {
+    private String startupCode = """
+    .global main
+    .global _main
+    .text
+    main:
+        call _main
+        movq %rax, %rdi
+        movq $0x3C, %rax
+        syscall
+    """;
+
     String generateAssembly(String input) {
         Lexer lexer = Lexer.forString(input);
 
@@ -47,15 +58,7 @@ public class CompilerTest {
         }
         """;
 
-        String expectedOutput = """
-        .global main
-        .global _main
-        .text
-        main:
-            call _main
-            movq %rax, %rdi
-            movq $0x3C, %rax
-            syscall
+        String expectedOutput = startupCode + """
         _main:
             movq $0, %0
             movq %0, %rax
@@ -73,15 +76,7 @@ public class CompilerTest {
         }
         """;
 
-        String expectedOutput = """
-        .global main
-        .global _main
-        .text
-        main:
-            call _main
-            movq %rax, %rdi
-            movq $0x3C, %rax
-            syscall
+        String expectedOutput = startupCode + """
         _main:
             movq $1, %0
             movq $2, %1

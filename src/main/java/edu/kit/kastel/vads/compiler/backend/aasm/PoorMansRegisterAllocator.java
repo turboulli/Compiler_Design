@@ -11,18 +11,20 @@ import edu.kit.kastel.vads.compiler.ir.node.StartNode;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
+import java.util.List;
 
 public class PoorMansRegisterAllocator implements RegisterAllocator {
     private int id;
     private final Map<Node, Register> registers = new HashMap<>();
-    private final Map<Integer, String> availableRegisters = new HashMap<>();
+    private final List<String> availableRegisters = new ArrayList<>();
 
     public PoorMansRegisterAllocator() {
-        this.availableRegisters.put(0, "edi");
-        this.availableRegisters.put(1, "esi");
-        this.availableRegisters.put(2, "edx");
+        this.availableRegisters.add("edi");
+        this.availableRegisters.add("esi");
+        this.availableRegisters.add("edx");
     }
 
     @Override
@@ -40,7 +42,7 @@ public class PoorMansRegisterAllocator implements RegisterAllocator {
             }
         }
         if (needsRegister(node)) {
-            if (this.availableRegisters.containsKey(this.id)) {
+            if (this.id < this.availableRegisters.size()) {
                 this.registers.put(node, new HardwareRegister(this.availableRegisters.get(this.id)));
                 ++this.id;
             } else {

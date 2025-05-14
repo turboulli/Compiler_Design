@@ -60,8 +60,8 @@ public class CompilerTest {
 
         String expectedOutput = startupCode + """
         _main:
-            movq $0, %0
-            movq %0, %rax
+            movl $0, %0
+            movl %0, %eax
             ret
         """;
 
@@ -78,11 +78,11 @@ public class CompilerTest {
 
         String expectedOutput = startupCode + """
         _main:
-            movq $1, %0
-            movq $2, %1
-            movq %0, %2
-            addq %1, %2
-            movq %2, %rax
+            movl $1, %0
+            movl $2, %1
+            movl %0, %2
+            addl %1, %2
+            movl %2, %eax
             ret
         """;
 

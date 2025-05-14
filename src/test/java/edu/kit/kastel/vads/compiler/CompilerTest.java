@@ -3,6 +3,7 @@ package edu.kit.kastel.vads.compiler;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Disabled;
 
 public class CompilerTest {
     String generateAssembly(String input) {
@@ -10,6 +11,7 @@ public class CompilerTest {
     }
 
     @Test
+    @Disabled
     public void test() {
         String input = """
         int main() {

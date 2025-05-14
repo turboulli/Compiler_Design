@@ -65,10 +65,9 @@ public class Main {
             BufferedReader reader = new BufferedReader(
                 new InputStreamReader(process.getInputStream())
             );
-            String line;
-            while ((line = reader.readLine()) != null) {
+            reader.lines().forEachOrdered(line -> {
                 System.out.println(line);
-            }
+            });
 
             int exitCode = process.waitFor();
             if (exitCode != 0) {

@@ -1,6 +1,7 @@
 package edu.kit.kastel.vads.compiler;
 
 import edu.kit.kastel.vads.compiler.backend.aasm.CodeGenerator;
+import edu.kit.kastel.vads.compiler.backend.aasm.AasmRegisterAllocator;
 import edu.kit.kastel.vads.compiler.ir.IrGraph;
 import edu.kit.kastel.vads.compiler.ir.SsaTranslation;
 import edu.kit.kastel.vads.compiler.ir.optimize.LocalValueNumbering;
@@ -52,7 +53,8 @@ public class Main {
         }
 
         // TODO: generate assembly and invoke gcc instead of generating abstract assembly
-        String assembly = new CodeGenerator().generateCode(graphs);
+        AasmRegisterAllocator allocator = new AasmRegisterAllocator();
+        String assembly = new CodeGenerator().generateCode(allocator, graphs);
 
         Path assemblyFile = output.resolveSibling(output.getFileName() + ".s");
         Files.writeString(assemblyFile, assembly);

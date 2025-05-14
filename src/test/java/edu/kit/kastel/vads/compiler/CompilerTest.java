@@ -1,6 +1,7 @@
 package edu.kit.kastel.vads.compiler;
 
 import edu.kit.kastel.vads.compiler.backend.aasm.CodeGenerator;
+import edu.kit.kastel.vads.compiler.backend.aasm.AasmRegisterAllocator;
 import edu.kit.kastel.vads.compiler.ir.IrGraph;
 import edu.kit.kastel.vads.compiler.ir.SsaTranslation;
 import edu.kit.kastel.vads.compiler.ir.optimize.LocalValueNumbering;
@@ -34,7 +35,8 @@ public class CompilerTest {
             graphs.add(translation.translate());
         }
 
-        return new CodeGenerator().generateCode(graphs);
+        AasmRegisterAllocator allocator = new AasmRegisterAllocator();
+        return new CodeGenerator().generateCode(allocator, graphs);
     }
 
     @Test

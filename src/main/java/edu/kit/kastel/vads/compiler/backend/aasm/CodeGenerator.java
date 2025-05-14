@@ -24,8 +24,7 @@ import java.util.Set;
 import static edu.kit.kastel.vads.compiler.ir.util.NodeSupport.predecessorSkipProj;
 
 public class CodeGenerator {
-
-    public String generateCode(List<IrGraph> program) {
+    public String generateCode(AasmRegisterAllocator allocator, List<IrGraph> program) {
         StringBuilder builder = new StringBuilder();
 
         builder
@@ -41,7 +40,6 @@ public class CodeGenerator {
             .append("syscall\n");
 
         for (IrGraph graph : program) {
-            AasmRegisterAllocator allocator = new AasmRegisterAllocator();
             Map<Node, Register> registers = allocator.allocateRegisters(graph);
             builder.append("_").append(graph.name()).append(":\n");
             generateForGraph(graph, builder, registers);

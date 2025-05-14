@@ -40,7 +40,7 @@ public class CompilerTest {
     }
 
     @Test
-    public void test() {
+    public void testReturnZero() {
         String input = """
         int main() {
             return 0;

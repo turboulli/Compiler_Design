@@ -153,4 +153,27 @@ public class CompilerTest {
 
         assertEquals(expectedOutput, generateAssembly(input));
     }
+
+    @Test
+    public void testMod() {
+        String input = """
+        int main() {
+            return 5 % 3;
+        }
+        """;
+
+        String expectedOutput = startupCode + """
+        _main:
+            movl $5, %0
+            movl $3, %1
+            movl %0, %eax
+            cltd
+            idivl %1
+            movl %edx, %2
+            movl %2, %eax
+            ret
+        """;
+
+        assertEquals(expectedOutput, generateAssembly(input));
+    }
 }

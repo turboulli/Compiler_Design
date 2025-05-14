@@ -34,7 +34,7 @@ public class PoorMansRegisterAllocator implements RegisterAllocator {
         }
         if (needsRegister(node)) {
             if (this.id == 0) {
-                this.registers.put(node, new HardwareRegister("rdi"));
+                this.registers.put(node, new HardwareRegister("edi"));
                 ++this.id;
             } else {
                 this.registers.put(node, new VirtualRegister(this.id++));

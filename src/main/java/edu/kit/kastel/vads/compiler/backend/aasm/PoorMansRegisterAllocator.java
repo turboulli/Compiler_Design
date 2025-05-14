@@ -17,6 +17,13 @@ import java.util.Set;
 public class PoorMansRegisterAllocator implements RegisterAllocator {
     private int id;
     private final Map<Node, Register> registers = new HashMap<>();
+    private final Map<Integer, String> availableRegisters = new HashMap<>();
+
+    public PoorMansRegisterAllocator() {
+        this.availableRegisters.put(0, "edi");
+        this.availableRegisters.put(1, "esi");
+        this.availableRegisters.put(2, "edx");
+    }
 
     @Override
     public Map<Node, Register> allocateRegisters(IrGraph graph) {
@@ -33,11 +40,11 @@ public class PoorMansRegisterAllocator implements RegisterAllocator {
             }
         }
         if (needsRegister(node)) {
-            if (this.id == 0) {
-                this.registers.put(node, new HardwareRegister("edi"));
+            if (this.availableRegisters.containsKey(this.id)) {
+                this.registers.put(node, new HardwareRegister(this.availableRegisters.get(this.id)));
                 ++this.id;
             } else {
-                this.registers.put(node, new VirtualRegister(this.id++));
+                throw new UnsupportedOperationException("Register with id " + Integer.toString(this.id) + " not available");
             }
         }
     }

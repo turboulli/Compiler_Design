@@ -10,9 +10,9 @@ main:
     syscall
 
 _main:
-    movq $1, %rdi
-    movq $2, %rsi
-    movq %rdi, %rdx
-    addq %rsi, %rdx
-    movq %rdx, %rax
+    movl $1, %edi
+    movl $2, %esi
+    movl %edi, %edx
+    addl %esi, %edx
+    movl %edx, %eax
     ret

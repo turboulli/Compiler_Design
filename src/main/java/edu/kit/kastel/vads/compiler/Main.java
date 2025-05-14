@@ -50,8 +50,12 @@ public class Main {
         }
 
         // TODO: generate assembly and invoke gcc instead of generating abstract assembly
-        String s = new CodeGenerator().generateCode(graphs);
-        Files.writeString(output, s);
+        String assembly = new CodeGenerator().generateCode(graphs);
+
+        Path assemblyFile = output.resolveSibling(output.getFileName() + ".s");
+        Files.writeString(assemblyFile, assembly);
+
+        Files.writeString(output, assembly);
     }
 
     private static ProgramTree lexAndParse(Path input) throws IOException {

@@ -27,12 +27,26 @@ public class CodeGenerator {
 
     public String generateCode(List<IrGraph> program) {
         StringBuilder builder = new StringBuilder();
+
+        builder
+            .append(".global main\n")
+            .append(".global _main\n")
+            .append(".text\n");
+
+        builder
+            .append("main:\n").repeat(" ", 4)
+            .append("call _main\n").repeat(" ", 4)
+            .append("movq %rax, %rdi\n").repeat(" ", 4)
+            .append("movq $0x3C, %rax\n").repeat(" ", 4)
+            .append("syscall\n");
+
         for (IrGraph graph : program) {
             AasmRegisterAllocator allocator = new AasmRegisterAllocator();
             Map<Node, Register> registers = allocator.allocateRegisters(graph);
             builder.append("_").append(graph.name()).append(":\n");
             generateForGraph(graph, builder, registers);
         }
+
         return builder.toString();
     }
 

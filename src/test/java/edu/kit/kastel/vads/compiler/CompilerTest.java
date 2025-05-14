@@ -46,6 +46,14 @@ public class CompilerTest {
         """;
 
         String expectedOutput = """
+        .global main
+        .global _main
+        .text
+        main:
+            call _main
+            movq %rax, %rdi
+            movq $0x3C, %rax
+            syscall
         _main:
             movq $0, %0
             movq %0, %rax

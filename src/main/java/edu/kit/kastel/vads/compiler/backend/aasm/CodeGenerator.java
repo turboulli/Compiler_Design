@@ -68,13 +68,13 @@ public class CodeGenerator {
             case DivNode div -> binary(builder, registers, div, "div");
             case ModNode mod -> binary(builder, registers, mod, "mod");
             case ReturnNode r -> builder.repeat(" ", 4)
-                .append("movq ")
+                .append("movl ")
                 .append(registers.get(predecessorSkipProj(r, ReturnNode.RESULT)))
                 .append(", ")
-                .append("%rax\n").repeat(" ", 4)
+                .append("%eax\n").repeat(" ", 4)
                 .append("ret");
             case ConstIntNode c -> builder.repeat(" ", 4)
-                .append("movq $")
+                .append("movl $")
                 .append(c.value())
                 .append(", ")
                 .append(registers.get(c));
@@ -95,12 +95,12 @@ public class CodeGenerator {
     ) {
         if (opcode == "add") {
             builder.repeat(" ", 4)
-                .append("movq ")
+                .append("movl ")
                 .append(registers.get(predecessorSkipProj(node, BinaryOperationNode.LEFT)))
                 .append(", ")
                 .append(registers.get(node))
                 .append("\n").repeat(" ", 4)
-                .append("addq ")
+                .append("addl ")
                 .append(registers.get(predecessorSkipProj(node, BinaryOperationNode.RIGHT)))
                 .append(", ")
                 .append(registers.get(node));

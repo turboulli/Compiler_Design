@@ -22,9 +22,22 @@ public class PoorMansRegisterAllocator implements RegisterAllocator {
     private final List<String> availableRegisters = new ArrayList<>();
 
     public PoorMansRegisterAllocator() {
-        this.availableRegisters.add("edi");
+        //this.availableRegisters.add("eax"); // used for return value
+        this.availableRegisters.add("ebx");
+        this.availableRegisters.add("ecx");
+        //this.availableRegisters.add("edx"); // used for modulo
         this.availableRegisters.add("esi");
-        this.availableRegisters.add("edx");
+        this.availableRegisters.add("edi");
+        this.availableRegisters.add("ebp");
+        this.availableRegisters.add("esp");
+        this.availableRegisters.add("r8d");
+        this.availableRegisters.add("r9d");
+        this.availableRegisters.add("r10d");
+        this.availableRegisters.add("r11d");
+        this.availableRegisters.add("r12d");
+        this.availableRegisters.add("r13d");
+        this.availableRegisters.add("r14d");
+        this.availableRegisters.add("r15d");
     }
 
     @Override

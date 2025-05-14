@@ -115,6 +115,17 @@ public class CodeGenerator {
                 .append(registers.get(predecessorSkipProj(node, BinaryOperationNode.RIGHT)))
                 .append(", ")
                 .append(registers.get(node));
+        } else if (opcode == "mul") {
+            builder.repeat(" ", 4)
+                .append("movl ")
+                .append(registers.get(predecessorSkipProj(node, BinaryOperationNode.LEFT)))
+                .append(", ")
+                .append(registers.get(node))
+                .append("\n").repeat(" ", 4)
+                .append("imull ")
+                .append(registers.get(predecessorSkipProj(node, BinaryOperationNode.RIGHT)))
+                .append(", ")
+                .append(registers.get(node));
         } else {
             builder.repeat(" ", 4).append(registers.get(node))
                 .append(" = ")

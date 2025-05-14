@@ -109,4 +109,25 @@ public class CompilerTest {
 
         assertEquals(expectedOutput, generateAssembly(input));
     }
+
+    @Test
+    public void testMul() {
+        String input = """
+        int main() {
+            return 2 * 3;
+        }
+        """;
+
+        String expectedOutput = startupCode + """
+        _main:
+            movl $2, %0
+            movl $3, %1
+            movl %0, %2
+            imull %1, %2
+            movl %2, %eax
+            ret
+        """;
+
+        assertEquals(expectedOutput, generateAssembly(input));
+    }
 }

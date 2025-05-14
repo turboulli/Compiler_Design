@@ -14,6 +14,8 @@ import edu.kit.kastel.vads.compiler.parser.ast.ProgramTree;
 import edu.kit.kastel.vads.compiler.semantic.SemanticAnalysis;
 import edu.kit.kastel.vads.compiler.semantic.SemanticException;
 import java.io.IOException;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -54,6 +56,27 @@ public class Main {
 
         Path assemblyFile = output.resolveSibling(output.getFileName() + ".s");
         Files.writeString(assemblyFile, assembly);
+
+        ProcessBuilder processBuilder = new ProcessBuilder("gcc", "-o", output.toString(), assemblyFile.toString());
+        processBuilder.redirectErrorStream(true);
+        try {
+            Process process = processBuilder.start();
+
+            BufferedReader reader = new BufferedReader(
+                new InputStreamReader(process.getInputStream())
+            );
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+
+            int exitCode = process.waitFor();
+            if (exitCode != 0) {
+                System.out.println("Error executing assembler: " + "GCC exited with code " + exitCode);
+            }
+        } catch (IOException | InterruptedException exception) {
+            exception.printStackTrace();
+        }
 
         Files.writeString(output, assembly);
     }

@@ -88,4 +88,25 @@ public class CompilerTest {
 
         assertEquals(expectedOutput, generateAssembly(input));
     }
+
+    @Test
+    public void testSub() {
+        String input = """
+        int main() {
+            return 2 - 1;
+        }
+        """;
+
+        String expectedOutput = startupCode + """
+        _main:
+            movl $2, %0
+            movl $1, %1
+            movl %0, %2
+            subl %1, %2
+            movl %2, %eax
+            ret
+        """;
+
+        assertEquals(expectedOutput, generateAssembly(input));
+    }
 }

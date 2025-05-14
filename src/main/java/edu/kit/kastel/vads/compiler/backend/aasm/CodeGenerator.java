@@ -126,6 +126,22 @@ public class CodeGenerator {
                 .append(registers.get(predecessorSkipProj(node, BinaryOperationNode.RIGHT)))
                 .append(", ")
                 .append(registers.get(node));
+        } else if (opcode == "div") {
+            builder.repeat(" ", 4)
+                .append("movl ")
+                .append(registers.get(predecessorSkipProj(node, BinaryOperationNode.LEFT)))
+                .append(", ")
+                .append("%eax")
+                .append("\n").repeat(" ", 4)
+                .append("cltd")
+                .append("\n").repeat(" ", 4)
+                .append("idivl ")
+                .append(registers.get(predecessorSkipProj(node, BinaryOperationNode.RIGHT)))
+                .append("\n").repeat(" ", 4)
+                .append("movl ")
+                .append("%eax")
+                .append(", ")
+                .append(registers.get(node));
         } else {
             builder.repeat(" ", 4).append(registers.get(node))
                 .append(" = ")

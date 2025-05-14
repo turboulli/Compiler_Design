@@ -130,4 +130,27 @@ public class CompilerTest {
 
         assertEquals(expectedOutput, generateAssembly(input));
     }
+
+    @Test
+    public void testDiv() {
+        String input = """
+        int main() {
+            return 6 / 3;
+        }
+        """;
+
+        String expectedOutput = startupCode + """
+        _main:
+            movl $6, %0
+            movl $3, %1
+            movl %0, %eax
+            cltd
+            idivl %1
+            movl %eax, %2
+            movl %2, %eax
+            ret
+        """;
+
+        assertEquals(expectedOutput, generateAssembly(input));
+    }
 }

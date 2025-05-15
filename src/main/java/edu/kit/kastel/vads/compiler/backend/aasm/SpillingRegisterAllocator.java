@@ -33,7 +33,7 @@ public class SpillingRegisterAllocator implements RegisterAllocator {
             }
         }
         if (needsRegister(node)) {
-            this.registers.put(node, new VirtualRegister(this.id++));
+            this.registers.put(node, new StackRegister(this.id++));
         }
     }
 

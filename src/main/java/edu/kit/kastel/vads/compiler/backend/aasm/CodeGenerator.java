@@ -98,11 +98,22 @@ public class CodeGenerator {
                 .append("movl ")
                 .append(registers.get(predecessorSkipProj(node, BinaryOperationNode.LEFT)))
                 .append(", ")
-                .append(registers.get(node))
+                .append("%edi")
                 .append("\n").repeat(" ", 4)
-                .append("addl ")
+
+                .append("movl ")
                 .append(registers.get(predecessorSkipProj(node, BinaryOperationNode.RIGHT)))
                 .append(", ")
+                .append("%esi")
+                .append("\n").repeat(" ", 4)
+
+                .append("movl %edi, %edx")
+                .append("\n").repeat(" ", 4)
+
+                .append("addl %esi, %edx")
+                .append("\n").repeat(" ", 4)
+
+                .append("movl %edx, ")
                 .append(registers.get(node));
         } else if (opcode == "sub") {
             builder.repeat(" ", 4)

@@ -53,7 +53,7 @@ public class Main {
             }
         }
 
-        if (graphs.stream().noneMatch(graph -> "main".equals(graph.name()))) {
+        if (graphs.stream().noneMatch(graph -> graph.name().equals("main"))) {
             System.exit(42);
         }
 

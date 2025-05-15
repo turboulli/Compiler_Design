@@ -3,6 +3,7 @@ package edu.kit.kastel.vads.compiler;
 import edu.kit.kastel.vads.compiler.backend.aasm.CodeGenerator;
 import edu.kit.kastel.vads.compiler.backend.regalloc.RegisterAllocator;
 import edu.kit.kastel.vads.compiler.backend.aasm.AasmRegisterAllocator;
+import edu.kit.kastel.vads.compiler.backend.aasm.SpillingRegisterAllocator;
 import edu.kit.kastel.vads.compiler.ir.IrGraph;
 import edu.kit.kastel.vads.compiler.ir.SsaTranslation;
 import edu.kit.kastel.vads.compiler.ir.optimize.LocalValueNumbering;
@@ -51,12 +52,13 @@ public class CompilerTest {
     }
 
     private String generateAbstractAssembly(String input) {
-        AasmRegisterAllocator allocator = new AasmRegisterAllocator();
+        RegisterAllocator allocator = new AasmRegisterAllocator();
         return generateAssembly(input, allocator);
     }
 
     private String generateSpillingAssembly(String input) {
-        return "";
+        RegisterAllocator allocator = new SpillingRegisterAllocator();
+        return generateAssembly(input, allocator);
     }
 
     @Test

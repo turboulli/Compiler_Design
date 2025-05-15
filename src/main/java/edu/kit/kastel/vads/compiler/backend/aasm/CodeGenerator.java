@@ -191,12 +191,23 @@ public class CodeGenerator {
                 .append("movl ")
                 .append(registers.get(predecessorSkipProj(node, BinaryOperationNode.LEFT)))
                 .append(", ")
-                .append("%eax")
+                .append("%edi")
                 .append("\n").repeat(" ", 4)
+
+                .append("movl ")
+                .append(registers.get(predecessorSkipProj(node, BinaryOperationNode.RIGHT)))
+                .append(", ")
+                .append("%esi")
+                .append("\n").repeat(" ", 4)
+
+                .append("movl %edi, %eax")
+                .append("\n").repeat(" ", 4)
+
                 .append("cltd")
                 .append("\n").repeat(" ", 4)
                 .append("idivl ")
-                .append(registers.get(predecessorSkipProj(node, BinaryOperationNode.RIGHT)))
+                .append("%esi")
+
                 .append("\n").repeat(" ", 4)
                 .append("movl ")
                 .append("%edx")

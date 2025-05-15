@@ -142,11 +142,22 @@ public class CodeGenerator {
                 .append("movl ")
                 .append(registers.get(predecessorSkipProj(node, BinaryOperationNode.LEFT)))
                 .append(", ")
-                .append(registers.get(node))
+                .append("%edi")
                 .append("\n").repeat(" ", 4)
-                .append("imull ")
+
+                .append("movl ")
                 .append(registers.get(predecessorSkipProj(node, BinaryOperationNode.RIGHT)))
                 .append(", ")
+                .append("%esi")
+                .append("\n").repeat(" ", 4)
+
+                .append("movl %edi, %edx")
+                .append("\n").repeat(" ", 4)
+
+                .append("imull %esi, %edx")
+                .append("\n").repeat(" ", 4)
+
+                .append("movl %edx, ")
                 .append(registers.get(node));
         } else if (opcode == "div") {
             builder.repeat(" ", 4)

@@ -1,6 +1,7 @@
 package edu.kit.kastel.vads.compiler;
 
 import edu.kit.kastel.vads.compiler.backend.aasm.CodeGenerator;
+import edu.kit.kastel.vads.compiler.backend.regalloc.RegisterAllocator;
 import edu.kit.kastel.vads.compiler.backend.aasm.AasmRegisterAllocator;
 import edu.kit.kastel.vads.compiler.ir.IrGraph;
 import edu.kit.kastel.vads.compiler.ir.SsaTranslation;
@@ -31,7 +32,7 @@ public class CompilerTest {
         syscall
     """;
 
-    private String generateAssembly(String input) {
+    private String generateAssembly(String input, RegisterAllocator allocator) {
         Lexer lexer = Lexer.forString(input);
 
         TokenSource tokenSource = new TokenSource(lexer);
@@ -46,8 +47,12 @@ public class CompilerTest {
             graphs.add(translation.translate());
         }
 
-        AasmRegisterAllocator allocator = new AasmRegisterAllocator();
         return new CodeGenerator().generateCode(allocator, graphs);
+    }
+
+    private String generateAssembly(String input) {
+        AasmRegisterAllocator allocator = new AasmRegisterAllocator();
+        return generateAssembly(input, allocator);
     }
 
     @Test

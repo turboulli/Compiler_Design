@@ -198,14 +198,14 @@ public class CompilerTest {
 
         String expectedOutput = startupCode + """
         _main:
-            movl $1, 8+0*4(%rsp)
-            movl $2, 8+1*4(%rsp)
-            movl 8+0*4(%rsp), %edi
-            movl 8+1*4(%rsp), %esi
+            movl $1, 8+4*0(%rsp)
+            movl $2, 8+4*1(%rsp)
+            movl 8+4*0(%rsp), %edi
+            movl 8+4*1(%rsp), %esi
             movl %edi, %edx
             addl %esi, %edx
-            movl %edx, 8+2*4(%rsp)
-            movl 8+2*4(%rsp), %eax
+            movl %edx, 8+4*2(%rsp)
+            movl 8+4*2(%rsp), %eax
             ret
         """;
 

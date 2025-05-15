@@ -50,7 +50,7 @@ public class CompilerTest {
         return new CodeGenerator().generateCode(allocator, graphs);
     }
 
-    private String generateAssembly(String input) {
+    private String generateAbstractAssembly(String input) {
         AasmRegisterAllocator allocator = new AasmRegisterAllocator();
         return generateAssembly(input, allocator);
     }
@@ -70,7 +70,7 @@ public class CompilerTest {
             ret
         """;
 
-        assertEquals(expectedOutput, generateAssembly(input));
+        assertEquals(expectedOutput, generateAbstractAssembly(input));
     }
 
     @Test
@@ -91,7 +91,7 @@ public class CompilerTest {
             ret
         """;
 
-        assertEquals(expectedOutput, generateAssembly(input));
+        assertEquals(expectedOutput, generateAbstractAssembly(input));
     }
 
     @Test
@@ -112,7 +112,7 @@ public class CompilerTest {
             ret
         """;
 
-        assertEquals(expectedOutput, generateAssembly(input));
+        assertEquals(expectedOutput, generateAbstractAssembly(input));
     }
 
     @Test
@@ -133,7 +133,7 @@ public class CompilerTest {
             ret
         """;
 
-        assertEquals(expectedOutput, generateAssembly(input));
+        assertEquals(expectedOutput, generateAbstractAssembly(input));
     }
 
     @Test
@@ -156,7 +156,7 @@ public class CompilerTest {
             ret
         """;
 
-        assertEquals(expectedOutput, generateAssembly(input));
+        assertEquals(expectedOutput, generateAbstractAssembly(input));
     }
 
     @Test
@@ -179,6 +179,6 @@ public class CompilerTest {
             ret
         """;
 
-        assertEquals(expectedOutput, generateAssembly(input));
+        assertEquals(expectedOutput, generateAbstractAssembly(input));
     }
 }

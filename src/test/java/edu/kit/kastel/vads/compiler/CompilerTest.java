@@ -115,8 +115,11 @@ public class CompilerTest {
         _main:
             movl $2, %0
             movl $1, %1
-            movl %0, %2
-            subl %1, %2
+            movl %0, %edi
+            movl %1, %esi
+            movl %edi, %edx
+            subl %esi, %edx
+            movl %edx, %2
             movl %2, %eax
             ret
         """;

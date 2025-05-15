@@ -55,6 +55,10 @@ public class CompilerTest {
         return generateAssembly(input, allocator);
     }
 
+    private String generateSpillingAssembly(String input) {
+        return "";
+    }
+
     @Test
     public void testReturnZero() {
         String input = """
@@ -180,5 +184,29 @@ public class CompilerTest {
         """;
 
         assertEquals(expectedOutput, generateAbstractAssembly(input));
+    }
+
+    @Test
+    public void testSpilling() {
+        String input = """
+        int main() {
+            return 1 + 2;
+        }
+        """;
+
+        String expectedOutput = startupCode + """
+        _main:
+            movl $1, 8+0*4(%rsp)
+            movl $2, 8+1*4(%rsp)
+            movl 8+0*4(%rsp), %edi
+            movl 8+1*4(%rsp), %esi
+            movl %edi, %edx
+            addl %esi, %edx
+            movl %edx, 8+2*4(%rsp)
+            movl 8+2*4(%rsp), %eax
+            ret
+        """;
+
+        assertEquals(expectedOutput, generateSpillingAssembly(input));
     }
 }

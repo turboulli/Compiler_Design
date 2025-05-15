@@ -53,12 +53,7 @@ public class Main {
             }
         }
 
-        IrGraph mainProgram = graphs.stream()
-            .filter(graph -> "main".equals(graph.name()))
-            .findAny()
-            .orElse(null);
-
-        if (mainProgram == null) {
+        if (graphs.stream().noneMatch(graph -> "main".equals(graph.name()))) {
             System.exit(42);
         }
 

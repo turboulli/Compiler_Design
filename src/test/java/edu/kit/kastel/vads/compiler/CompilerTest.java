@@ -203,6 +203,30 @@ public class CompilerTest {
     }
 
     @Test
+    public void testBitwiseAnd() {
+        String input = """
+        int main() {
+            return 1 & 2;
+        }
+        """;
+
+        String expectedOutput = startupCode + """
+        _main:
+            movl $1, %0
+            movl $2, %1
+            movl %0, %edi
+            movl %1, %esi
+            movl %edi, %edx
+            andl %esi, %edx
+            movl %edx, %2
+            movl %2, %eax
+            ret
+        """;
+
+        assertEquals(expectedOutput, generateAbstractAssembly(input));
+    }
+
+    @Test
     @Disabled
     public void testBitwiseNot() {
         String input = """

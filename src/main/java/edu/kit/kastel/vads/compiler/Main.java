@@ -53,7 +53,6 @@ public class Main {
             }
         }
 
-        // TODO: generate assembly and invoke gcc instead of generating abstract assembly
         RegisterAllocator allocator = new SpillingRegisterAllocator();
         String assembly = new CodeGenerator().generateCode(allocator, graphs);
 

@@ -92,6 +92,8 @@ public class SsaTranslation {
                 case ASSIGN_BITWISE_AND -> data.constructor::newBitwiseAnd;
                 case ASSIGN_BITWISE_XOR -> data.constructor::newBitwiseXor;
                 case ASSIGN_BITWISE_OR -> data.constructor::newBitwiseOr;
+                case ASSIGN_SHIFT_LEFT -> data.constructor::newShiftLeft;
+                case ASSIGN_SHIFT_RIGHT -> data.constructor::newShiftRight;
                 case ASSIGN -> null;
                 default ->
                     throw new IllegalArgumentException("not an assignment operator " + assignmentTree.operator());
@@ -124,6 +126,8 @@ public class SsaTranslation {
                 case BITWISE_AND -> data.constructor.newBitwiseAnd(lhs, rhs);
                 case BITWISE_XOR -> data.constructor.newBitwiseXor(lhs, rhs);
                 case BITWISE_OR -> data.constructor.newBitwiseOr(lhs, rhs);
+                case SHIFT_LEFT -> data.constructor.newShiftLeft(lhs, rhs);
+                case SHIFT_RIGHT -> data.constructor.newShiftRight(lhs, rhs);
                 default ->
                     throw new IllegalArgumentException("not a binary expression operator " + binaryOperationTree.operatorType());
             };

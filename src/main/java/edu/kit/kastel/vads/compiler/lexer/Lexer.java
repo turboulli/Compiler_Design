@@ -44,6 +44,8 @@ public class Lexer {
             case '&' -> singleOrAssign(OperatorType.BITWISE_AND, OperatorType.ASSIGN_BITWISE_AND);
             case '^' -> singleOrAssign(OperatorType.BITWISE_XOR, OperatorType.ASSIGN_BITWISE_XOR);
             case '|' -> singleOrAssign(OperatorType.BITWISE_OR, OperatorType.ASSIGN_BITWISE_OR);
+            case '<' -> shiftLeftOrAssign();
+            case '>' -> shiftRightOrAssign();
             case '=' -> new Operator(OperatorType.ASSIGN, buildSpan(1));
             default -> {
                 if (isIdentifierChar(peek())) {
@@ -189,6 +191,26 @@ public class Lexer {
 
     private boolean isHex(char c) {
         return isNumeric(c) || (c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F');
+    }
+
+    private Token shiftLeftOrAssign() {
+        if (hasMore(2) && peek(1) == '<' && peek(2) == '=') {
+            return new Operator(OperatorType.ASSIGN_SHIFT_LEFT, buildSpan(3));
+        }
+        if (hasMore(1) && peek(1) == '<') {
+            return new Operator(OperatorType.SHIFT_LEFT, buildSpan(2));
+        }
+        return new ErrorToken(String.valueOf(peek()), buildSpan(1));
+    }
+
+    private Token shiftRightOrAssign() {
+        if (hasMore(2) && peek(1) == '>' && peek(2) == '=') {
+            return new Operator(OperatorType.ASSIGN_SHIFT_RIGHT, buildSpan(3));
+        }
+        if (hasMore(1) && peek(1) == '>') {
+            return new Operator(OperatorType.SHIFT_RIGHT, buildSpan(2));
+        }
+        return new ErrorToken(String.valueOf(peek()), buildSpan(1));
     }
 
     private Token singleOrAssign(OperatorType single, OperatorType assign) {

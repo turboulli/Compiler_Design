@@ -107,7 +107,7 @@ public class Parser {
     private Operator parseAssignmentOperator() {
         if (this.tokenSource.peek() instanceof Operator op) {
             return switch (op.type()) {
-                case ASSIGN, ASSIGN_DIV, ASSIGN_MINUS, ASSIGN_MOD, ASSIGN_MUL, ASSIGN_PLUS, ASSIGN_BITWISE_AND, ASSIGN_BITWISE_XOR, ASSIGN_BITWISE_OR -> {
+                case ASSIGN, ASSIGN_DIV, ASSIGN_MINUS, ASSIGN_MOD, ASSIGN_MUL, ASSIGN_PLUS, ASSIGN_BITWISE_AND, ASSIGN_BITWISE_XOR, ASSIGN_BITWISE_OR, ASSIGN_SHIFT_LEFT, ASSIGN_SHIFT_RIGHT -> {
                     this.tokenSource.consume();
                     yield op;
                 }
@@ -138,7 +138,7 @@ public class Parser {
         ExpressionTree lhs = parseTerm();
         while (true) {
             if (this.tokenSource.peek() instanceof Operator(var type, _)
-                && (type == OperatorType.PLUS || type == OperatorType.MINUS || type == OperatorType.BITWISE_AND || type == OperatorType.BITWISE_XOR || type == OperatorType.BITWISE_OR)) {
+                && (type == OperatorType.PLUS || type == OperatorType.MINUS || type == OperatorType.BITWISE_AND || type == OperatorType.BITWISE_XOR || type == OperatorType.BITWISE_OR || type == OperatorType.SHIFT_LEFT || type == OperatorType.SHIFT_RIGHT)) {
                 this.tokenSource.consume();
                 lhs = new BinaryOperationTree(lhs, parseTerm(), type);
             } else {

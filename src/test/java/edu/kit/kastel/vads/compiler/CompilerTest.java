@@ -202,6 +202,25 @@ public class CompilerTest {
     }
 
     @Test
+    public void testBitwiseNot() {
+        String input = """
+            int main() {
+                return ~0;
+            }
+        """;
+
+        String expectedOutput = startupCode + """
+        _main:
+            movl $0, %0
+            notl %0
+            movl %0, %eax
+            ret
+        """;
+
+        assertEquals(expectedOutput, generateAbstractAssembly(input));
+    }
+
+    @Test
     public void testSpilling() {
         String input = """
         int main() {

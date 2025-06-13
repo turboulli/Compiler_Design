@@ -365,7 +365,7 @@ public class CompilerTest {
     }
 
     @Test
-    public void testDeclareAndInitializeBool() {
+    public void testDeclareBoolAndInitializeWithFalse() {
         String input = """
             int main() {
                 bool a = false;
@@ -376,7 +376,28 @@ public class CompilerTest {
         String expectedOutput = startupCode + """
         _main:
             movl $0, %0
-            movl $0, %eax
+            movl $0, %1
+            movl $1, %eax
+            ret
+        """;
+
+        assertEquals(expectedOutput, generateAbstractAssembly(input));
+    }
+
+    @Test
+    public void testDeclareBoolAndInitializeWithTrue() {
+        String input = """
+            int main() {
+                bool a = true;
+                return 0;
+            }
+        """;
+
+        String expectedOutput = startupCode + """
+        _main:
+            movl $1, %0
+            movl $0, %1
+            movl %1, %eax
             ret
         """;
 

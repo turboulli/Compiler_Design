@@ -20,6 +20,7 @@ import edu.kit.kastel.vads.compiler.parser.ast.IdentExpressionTree;
 import edu.kit.kastel.vads.compiler.parser.ast.LValueIdentTree;
 import edu.kit.kastel.vads.compiler.parser.ast.LValueTree;
 import edu.kit.kastel.vads.compiler.parser.ast.LiteralTree;
+import edu.kit.kastel.vads.compiler.parser.ast.BoolLiteralTree;
 import edu.kit.kastel.vads.compiler.parser.ast.NameTree;
 import edu.kit.kastel.vads.compiler.parser.ast.NegateTree;
 import edu.kit.kastel.vads.compiler.parser.ast.ProgramTree;
@@ -76,7 +77,9 @@ public class Parser {
     private StatementTree parseStatement() {
         StatementTree statement;
         if (this.tokenSource.peek().isKeyword(KeywordType.INT)) {
-            statement = parseDeclaration();
+            statement = parseDeclaration(KeywordType.INT);
+        } else if (this.tokenSource.peek().isKeyword(KeywordType.BOOL)) {
+            statement = parseDeclaration(KeywordType.BOOL);
         } else if (this.tokenSource.peek().isKeyword(KeywordType.RETURN)) {
             statement = parseReturn();
         } else {
@@ -86,8 +89,8 @@ public class Parser {
         return statement;
     }
 
-    private StatementTree parseDeclaration() {
-        Keyword type = this.tokenSource.expectKeyword(KeywordType.INT);
+    private StatementTree parseDeclaration(KeywordType declarationType) {
+        Keyword type = this.tokenSource.expectKeyword(declarationType);
         Identifier ident = this.tokenSource.expectIdentifier();
         ExpressionTree expr = null;
         if (this.tokenSource.peek().isOperator(OperatorType.ASSIGN)) {
@@ -183,6 +186,14 @@ public class Parser {
             case NumberLiteral(String value, int base, Span span) -> {
                 this.tokenSource.consume();
                 yield new LiteralTree(value, base, span);
+            }
+            case Keyword(var keyword, var span) when keyword == KeywordType.FALSE -> {
+                this.tokenSource.consume();
+                yield new BoolLiteralTree(false, span);
+            }
+            case Keyword(var keyword, var span) when keyword == KeywordType.TRUE -> {
+                this.tokenSource.consume();
+                yield new BoolLiteralTree(true, span);
             }
             case Token t -> throw new ParseException("invalid factor " + t);
         };

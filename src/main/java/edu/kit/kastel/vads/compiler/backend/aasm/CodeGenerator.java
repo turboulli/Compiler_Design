@@ -8,6 +8,7 @@ import edu.kit.kastel.vads.compiler.ir.node.BinaryOperationNode;
 import edu.kit.kastel.vads.compiler.ir.node.UnaryOperationNode;
 import edu.kit.kastel.vads.compiler.ir.node.Block;
 import edu.kit.kastel.vads.compiler.ir.node.ConstIntNode;
+import edu.kit.kastel.vads.compiler.ir.node.ConstBoolNode;
 import edu.kit.kastel.vads.compiler.ir.node.DivNode;
 import edu.kit.kastel.vads.compiler.ir.node.ModNode;
 import edu.kit.kastel.vads.compiler.ir.node.MulNode;
@@ -89,6 +90,11 @@ public class CodeGenerator {
             case ConstIntNode c -> builder.repeat(" ", 4)
                 .append("movl $")
                 .append(c.value())
+                .append(", ")
+                .append(registers.get(c));
+            case ConstBoolNode c -> builder.repeat(" ", 4)
+                .append("movl $")
+                .append(c.value() ? 1 : 0)
                 .append(", ")
                 .append(registers.get(c));
             case Phi _ -> throw new UnsupportedOperationException("phi");

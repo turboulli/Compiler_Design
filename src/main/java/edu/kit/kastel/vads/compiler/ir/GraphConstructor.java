@@ -3,6 +3,7 @@ package edu.kit.kastel.vads.compiler.ir;
 import edu.kit.kastel.vads.compiler.ir.node.AddNode;
 import edu.kit.kastel.vads.compiler.ir.node.Block;
 import edu.kit.kastel.vads.compiler.ir.node.ConstIntNode;
+import edu.kit.kastel.vads.compiler.ir.node.ConstBoolNode;
 import edu.kit.kastel.vads.compiler.ir.node.DivNode;
 import edu.kit.kastel.vads.compiler.ir.node.ModNode;
 import edu.kit.kastel.vads.compiler.ir.node.MulNode;
@@ -102,6 +103,10 @@ class GraphConstructor {
         // always move const into start block, this allows better deduplication
         // and resultingly in better value numbering
         return this.optimizer.transform(new ConstIntNode(this.graph.startBlock(), value));
+    }
+
+    public Node newConstBool(boolean value) {
+        return this.optimizer.transform(new ConstBoolNode(this.graph.startBlock(), value));
     }
 
     public Node newSideEffectProj(Node node) {

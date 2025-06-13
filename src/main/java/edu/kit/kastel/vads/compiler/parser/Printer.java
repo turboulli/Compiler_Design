@@ -6,6 +6,7 @@ import edu.kit.kastel.vads.compiler.parser.ast.BlockTree;
 import edu.kit.kastel.vads.compiler.parser.ast.IdentExpressionTree;
 import edu.kit.kastel.vads.compiler.parser.ast.LValueIdentTree;
 import edu.kit.kastel.vads.compiler.parser.ast.LiteralTree;
+import edu.kit.kastel.vads.compiler.parser.ast.BoolLiteralTree;
 import edu.kit.kastel.vads.compiler.parser.ast.NameTree;
 import edu.kit.kastel.vads.compiler.parser.ast.NegateTree;
 import edu.kit.kastel.vads.compiler.parser.ast.ReturnTree;
@@ -80,6 +81,7 @@ public class Printer {
                 print(")");
             }
             case LiteralTree(var value, _, _) -> this.builder.append(value);
+            case BoolLiteralTree(var value, _) -> this.builder.append(value);
             case NegateTree(var expression, _, var op) -> {
                 this.builder.append(op);
                 print("(");

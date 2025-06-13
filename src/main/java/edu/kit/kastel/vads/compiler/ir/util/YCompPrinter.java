@@ -5,6 +5,7 @@ import edu.kit.kastel.vads.compiler.ir.node.BinaryOperationNode;
 import edu.kit.kastel.vads.compiler.ir.node.UnaryOperationNode;
 import edu.kit.kastel.vads.compiler.ir.node.Block;
 import edu.kit.kastel.vads.compiler.ir.node.ConstIntNode;
+import edu.kit.kastel.vads.compiler.ir.node.ConstBoolNode;
 import edu.kit.kastel.vads.compiler.ir.node.Node;
 import edu.kit.kastel.vads.compiler.ir.node.Phi;
 import edu.kit.kastel.vads.compiler.ir.node.ProjNode;
@@ -219,6 +220,7 @@ public class YCompPrinter {
             case UnaryOperationNode _ -> VcgColor.NORMAL;
             case Block _ -> VcgColor.NORMAL;
             case ConstIntNode _ -> VcgColor.NORMAL;
+            case ConstBoolNode _ -> VcgColor.NORMAL;
             case Phi _ -> VcgColor.PHI;
             case ProjNode proj -> {
                 if (proj.projectionInfo() == SimpleProjectionInfo.SIDE_EFFECT) {

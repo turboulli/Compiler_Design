@@ -377,7 +377,7 @@ public class CompilerTest {
         _main:
             movl $0, %0
             movl $0, %1
-            movl $1, %eax
+            movl %1, %eax
             ret
         """;
 

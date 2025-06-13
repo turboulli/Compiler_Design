@@ -356,7 +356,8 @@ public class CompilerTest {
 
         String expectedOutput = startupCode + """
         _main:
-            movl $0, %eax
+            movl $0, %0
+            movl %0, %eax
             ret
         """;
 

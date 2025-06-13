@@ -200,7 +200,12 @@ public class SsaTranslation {
         public Optional<Node> visit(NegateTree negateTree, SsaTranslation data) {
             pushSpan(negateTree);
             Node node = negateTree.expression().accept(this, data).orElseThrow();
-            Node res = data.constructor.newSub(data.constructor.newConstInt(0), node);
+            Node res = switch (negateTree.operatorType()) {
+                case MINUS -> data.constructor.newSub(data.constructor.newConstInt(0), node);
+                case BITWISE_NOT -> data.constructor.newBitwiseNot(node);
+                default ->
+                    throw new IllegalArgumentException("not a unary expression operator " + negateTree.operatorType());
+            };
             popSpan();
             return Optional.of(res);
         }

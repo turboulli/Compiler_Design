@@ -36,6 +36,7 @@ public class Lexer {
             case '{' -> separator(SeparatorType.BRACE_OPEN);
             case '}' -> separator(SeparatorType.BRACE_CLOSE);
             case ';' -> separator(SeparatorType.SEMICOLON);
+            case '~' -> single(OperatorType.BITWISE_NOT);
             case '-' -> singleOrAssign(OperatorType.MINUS, OperatorType.ASSIGN_MINUS);
             case '+' -> singleOrAssign(OperatorType.PLUS, OperatorType.ASSIGN_PLUS);
             case '*' -> singleOrAssign(OperatorType.MUL, OperatorType.ASSIGN_MUL);
@@ -211,6 +212,10 @@ public class Lexer {
             return new Operator(OperatorType.SHIFT_RIGHT, buildSpan(2));
         }
         return new ErrorToken(String.valueOf(peek()), buildSpan(1));
+    }
+
+    private Token single(OperatorType single) {
+        return new Operator(single, buildSpan(1));
     }
 
     private Token singleOrAssign(OperatorType single, OperatorType assign) {

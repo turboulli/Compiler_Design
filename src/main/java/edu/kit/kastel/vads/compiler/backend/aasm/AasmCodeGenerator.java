@@ -4,6 +4,7 @@ import edu.kit.kastel.vads.compiler.backend.regalloc.Register;
 import edu.kit.kastel.vads.compiler.ir.IrGraph;
 import edu.kit.kastel.vads.compiler.ir.node.AddNode;
 import edu.kit.kastel.vads.compiler.ir.node.BinaryOperationNode;
+import edu.kit.kastel.vads.compiler.ir.node.UnaryOperationNode;
 import edu.kit.kastel.vads.compiler.ir.node.Block;
 import edu.kit.kastel.vads.compiler.ir.node.ConstIntNode;
 import edu.kit.kastel.vads.compiler.ir.node.DivNode;
@@ -15,6 +16,7 @@ import edu.kit.kastel.vads.compiler.ir.node.ProjNode;
 import edu.kit.kastel.vads.compiler.ir.node.ReturnNode;
 import edu.kit.kastel.vads.compiler.ir.node.StartNode;
 import edu.kit.kastel.vads.compiler.ir.node.SubNode;
+import edu.kit.kastel.vads.compiler.ir.node.BitwiseNotNode;
 import edu.kit.kastel.vads.compiler.ir.node.BitwiseAndNode;
 import edu.kit.kastel.vads.compiler.ir.node.BitwiseXorNode;
 import edu.kit.kastel.vads.compiler.ir.node.BitwiseOrNode;
@@ -62,6 +64,7 @@ public class AasmCodeGenerator {
             case MulNode mul -> binary(builder, registers, mul, "mul");
             case DivNode div -> binary(builder, registers, div, "div");
             case ModNode mod -> binary(builder, registers, mod, "mod");
+            case BitwiseNotNode bitwiseNot -> unary(builder, registers, bitwiseNot, "bitwiseNot");
             case BitwiseAndNode bitwiseAnd -> binary(builder, registers, bitwiseAnd, "bitwiseAnd");
             case BitwiseXorNode bitwiseXor -> binary(builder, registers, bitwiseXor, "bitwiseXor");
             case BitwiseOrNode bitwiseOr -> binary(builder, registers, bitwiseOr, "bitwiseOr");
@@ -80,6 +83,19 @@ public class AasmCodeGenerator {
             }
         }
         builder.append("\n");
+    }
+
+    private static void unary(
+        StringBuilder builder,
+        Map<Node, Register> registers,
+        UnaryOperationNode node,
+        String opcode
+    ) {
+        builder.repeat(" ", 2).append(registers.get(node))
+            .append(" = ")
+            .append(opcode)
+            .append(" ")
+            .append(registers.get(predecessorSkipProj(node, UnaryOperationNode.OPERAND)));
     }
 
     private static void binary(

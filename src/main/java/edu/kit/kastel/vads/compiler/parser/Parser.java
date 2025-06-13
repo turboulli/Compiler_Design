@@ -170,7 +170,11 @@ public class Parser {
             }
             case Operator(var type, _) when type == OperatorType.MINUS -> {
                 Span span = this.tokenSource.consume().span();
-                yield new NegateTree(parseFactor(), span);
+                yield new NegateTree(parseFactor(), span, type);
+            }
+            case Operator(var type, _) when type == OperatorType.BITWISE_NOT -> {
+                Span span = this.tokenSource.consume().span();
+                yield new NegateTree(parseFactor(), span, type);
             }
             case Identifier ident -> {
                 this.tokenSource.consume();

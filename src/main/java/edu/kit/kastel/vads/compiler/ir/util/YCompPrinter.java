@@ -2,6 +2,7 @@ package edu.kit.kastel.vads.compiler.ir.util;
 
 import edu.kit.kastel.vads.compiler.ir.IrGraph;
 import edu.kit.kastel.vads.compiler.ir.node.BinaryOperationNode;
+import edu.kit.kastel.vads.compiler.ir.node.UnaryOperationNode;
 import edu.kit.kastel.vads.compiler.ir.node.Block;
 import edu.kit.kastel.vads.compiler.ir.node.ConstIntNode;
 import edu.kit.kastel.vads.compiler.ir.node.Node;
@@ -215,6 +216,7 @@ public class YCompPrinter {
     private VcgColor nodeColor(Node node) {
         return switch (node) {
             case BinaryOperationNode _ -> VcgColor.NORMAL;
+            case UnaryOperationNode _ -> VcgColor.NORMAL;
             case Block _ -> VcgColor.NORMAL;
             case ConstIntNode _ -> VcgColor.NORMAL;
             case Phi _ -> VcgColor.PHI;

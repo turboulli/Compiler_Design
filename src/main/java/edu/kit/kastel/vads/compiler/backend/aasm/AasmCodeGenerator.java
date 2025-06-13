@@ -15,6 +15,9 @@ import edu.kit.kastel.vads.compiler.ir.node.ProjNode;
 import edu.kit.kastel.vads.compiler.ir.node.ReturnNode;
 import edu.kit.kastel.vads.compiler.ir.node.StartNode;
 import edu.kit.kastel.vads.compiler.ir.node.SubNode;
+import edu.kit.kastel.vads.compiler.ir.node.BitwiseAndNode;
+import edu.kit.kastel.vads.compiler.ir.node.BitwiseXorNode;
+import edu.kit.kastel.vads.compiler.ir.node.BitwiseOrNode;
 
 import java.util.HashSet;
 import java.util.List;
@@ -57,6 +60,9 @@ public class AasmCodeGenerator {
             case MulNode mul -> binary(builder, registers, mul, "mul");
             case DivNode div -> binary(builder, registers, div, "div");
             case ModNode mod -> binary(builder, registers, mod, "mod");
+            case BitwiseAndNode bitwiseAnd -> binary(builder, registers, bitwiseAnd, "bitwiseAnd");
+            case BitwiseXorNode bitwiseXor -> binary(builder, registers, bitwiseXor, "bitwiseXor");
+            case BitwiseOrNode bitwiseOr -> binary(builder, registers, bitwiseOr, "bitwiseOr");
             case ReturnNode r -> builder.repeat(" ", 2).append("ret ")
                 .append(registers.get(predecessorSkipProj(r, ReturnNode.RESULT)));
             case ConstIntNode c -> builder.repeat(" ", 2)

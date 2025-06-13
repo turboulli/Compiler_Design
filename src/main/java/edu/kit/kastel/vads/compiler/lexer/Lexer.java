@@ -41,6 +41,9 @@ public class Lexer {
             case '*' -> singleOrAssign(OperatorType.MUL, OperatorType.ASSIGN_MUL);
             case '/' -> singleOrAssign(OperatorType.DIV, OperatorType.ASSIGN_DIV);
             case '%' -> singleOrAssign(OperatorType.MOD, OperatorType.ASSIGN_MOD);
+            case '&' -> singleOrAssign(OperatorType.BITWISE_AND, OperatorType.ASSIGN_BITWISE_AND);
+            case '^' -> singleOrAssign(OperatorType.BITWISE_XOR, OperatorType.ASSIGN_BITWISE_XOR);
+            case '|' -> singleOrAssign(OperatorType.BITWISE_OR, OperatorType.ASSIGN_BITWISE_OR);
             case '=' -> new Operator(OperatorType.ASSIGN, buildSpan(1));
             default -> {
                 if (isIdentifierChar(peek())) {

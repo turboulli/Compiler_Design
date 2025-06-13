@@ -12,6 +12,9 @@ import edu.kit.kastel.vads.compiler.ir.node.ProjNode;
 import edu.kit.kastel.vads.compiler.ir.node.ReturnNode;
 import edu.kit.kastel.vads.compiler.ir.node.StartNode;
 import edu.kit.kastel.vads.compiler.ir.node.SubNode;
+import edu.kit.kastel.vads.compiler.ir.node.BitwiseAndNode;
+import edu.kit.kastel.vads.compiler.ir.node.BitwiseXorNode;
+import edu.kit.kastel.vads.compiler.ir.node.BitwiseOrNode;
 import edu.kit.kastel.vads.compiler.ir.optimize.Optimizer;
 import edu.kit.kastel.vads.compiler.parser.symbol.Name;
 
@@ -47,6 +50,7 @@ class GraphConstructor {
     public Node newAdd(Node left, Node right) {
         return this.optimizer.transform(new AddNode(currentBlock(), left, right));
     }
+
     public Node newSub(Node left, Node right) {
         return this.optimizer.transform(new SubNode(currentBlock(), left, right));
     }
@@ -61,6 +65,18 @@ class GraphConstructor {
 
     public Node newMod(Node left, Node right) {
         return this.optimizer.transform(new ModNode(currentBlock(), left, right, readCurrentSideEffect()));
+    }
+
+    public Node newBitwiseAnd(Node left, Node right) {
+        return this.optimizer.transform(new BitwiseAndNode(currentBlock(), left, right));
+    }
+
+    public Node newBitwiseXor(Node left, Node right) {
+        return this.optimizer.transform(new BitwiseXorNode(currentBlock(), left, right));
+    }
+
+    public Node newBitwiseOr(Node left, Node right) {
+        return this.optimizer.transform(new BitwiseOrNode(currentBlock(), left, right));
     }
 
     public Node newReturn(Node result) {

@@ -16,6 +16,9 @@ import edu.kit.kastel.vads.compiler.ir.node.ProjNode;
 import edu.kit.kastel.vads.compiler.ir.node.ReturnNode;
 import edu.kit.kastel.vads.compiler.ir.node.StartNode;
 import edu.kit.kastel.vads.compiler.ir.node.SubNode;
+import edu.kit.kastel.vads.compiler.ir.node.BitwiseAndNode;
+import edu.kit.kastel.vads.compiler.ir.node.BitwiseXorNode;
+import edu.kit.kastel.vads.compiler.ir.node.BitwiseOrNode;
 
 import java.util.HashSet;
 import java.util.List;
@@ -67,6 +70,9 @@ public class CodeGenerator {
             case MulNode mul -> binary(builder, registers, mul, "mul");
             case DivNode div -> binary(builder, registers, div, "div");
             case ModNode mod -> binary(builder, registers, mod, "mod");
+            case BitwiseAndNode bitwiseAnd -> binary(builder, registers, bitwiseAnd, "bitwiseAnd");
+            case BitwiseXorNode bitwiseXor -> binary(builder, registers, bitwiseXor, "bitwiseXor");
+            case BitwiseOrNode bitwiseOr -> binary(builder, registers, bitwiseOr, "bitwiseOr");
             case ReturnNode r -> builder.repeat(" ", 4)
                 .append("movl ")
                 .append(registers.get(predecessorSkipProj(r, ReturnNode.RESULT)))
@@ -212,6 +218,72 @@ public class CodeGenerator {
                 .append("movl ")
                 .append("%edx")
                 .append(", ")
+                .append(registers.get(node));
+        } else if (opcode == "bitwiseAnd") {
+            builder.repeat(" ", 4)
+                .append("movl ")
+                .append(registers.get(predecessorSkipProj(node, BinaryOperationNode.LEFT)))
+                .append(", ")
+                .append("%edi")
+                .append("\n").repeat(" ", 4)
+
+                .append("movl ")
+                .append(registers.get(predecessorSkipProj(node, BinaryOperationNode.RIGHT)))
+                .append(", ")
+                .append("%esi")
+                .append("\n").repeat(" ", 4)
+
+                .append("movl %edi, %edx")
+                .append("\n").repeat(" ", 4)
+
+                .append("andl %esi, %edx")
+                .append("\n").repeat(" ", 4)
+
+                .append("movl %edx, ")
+                .append(registers.get(node));
+        } else if (opcode == "bitwiseXor") {
+            builder.repeat(" ", 4)
+                .append("movl ")
+                .append(registers.get(predecessorSkipProj(node, BinaryOperationNode.LEFT)))
+                .append(", ")
+                .append("%edi")
+                .append("\n").repeat(" ", 4)
+
+                .append("movl ")
+                .append(registers.get(predecessorSkipProj(node, BinaryOperationNode.RIGHT)))
+                .append(", ")
+                .append("%esi")
+                .append("\n").repeat(" ", 4)
+
+                .append("movl %edi, %edx")
+                .append("\n").repeat(" ", 4)
+
+                .append("xorl %esi, %edx")
+                .append("\n").repeat(" ", 4)
+
+                .append("movl %edx, ")
+                .append(registers.get(node));
+        } else if (opcode == "bitwiseOr") {
+            builder.repeat(" ", 4)
+                .append("movl ")
+                .append(registers.get(predecessorSkipProj(node, BinaryOperationNode.LEFT)))
+                .append(", ")
+                .append("%edi")
+                .append("\n").repeat(" ", 4)
+
+                .append("movl ")
+                .append(registers.get(predecessorSkipProj(node, BinaryOperationNode.RIGHT)))
+                .append(", ")
+                .append("%esi")
+                .append("\n").repeat(" ", 4)
+
+                .append("movl %edi, %edx")
+                .append("\n").repeat(" ", 4)
+
+                .append("orl %esi, %edx")
+                .append("\n").repeat(" ", 4)
+
+                .append("movl %edx, ")
                 .append(registers.get(node));
         } else {
             throw new UnsupportedOperationException(opcode);

@@ -89,6 +89,9 @@ public class SsaTranslation {
                 case ASSIGN_MUL -> data.constructor::newMul;
                 case ASSIGN_DIV -> (lhs, rhs) -> projResultDivMod(data, data.constructor.newDiv(lhs, rhs));
                 case ASSIGN_MOD -> (lhs, rhs) -> projResultDivMod(data, data.constructor.newMod(lhs, rhs));
+                case ASSIGN_BITWISE_AND -> data.constructor::newBitwiseAnd;
+                case ASSIGN_BITWISE_XOR -> data.constructor::newBitwiseXor;
+                case ASSIGN_BITWISE_OR -> data.constructor::newBitwiseOr;
                 case ASSIGN -> null;
                 default ->
                     throw new IllegalArgumentException("not an assignment operator " + assignmentTree.operator());
@@ -118,6 +121,9 @@ public class SsaTranslation {
                 case MUL -> data.constructor.newMul(lhs, rhs);
                 case DIV -> projResultDivMod(data, data.constructor.newDiv(lhs, rhs));
                 case MOD -> projResultDivMod(data, data.constructor.newMod(lhs, rhs));
+                case BITWISE_AND -> data.constructor.newBitwiseAnd(lhs, rhs);
+                case BITWISE_XOR -> data.constructor.newBitwiseXor(lhs, rhs);
+                case BITWISE_OR -> data.constructor.newBitwiseOr(lhs, rhs);
                 default ->
                     throw new IllegalArgumentException("not a binary expression operator " + binaryOperationTree.operatorType());
             };

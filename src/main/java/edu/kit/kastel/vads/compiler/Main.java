@@ -53,10 +53,6 @@ public class Main {
             }
         }
 
-        if (graphs.stream().noneMatch(graph -> graph.name().equals("main"))) {
-            System.exit(42);
-        }
-
         // TODO: generate assembly and invoke gcc instead of generating abstract assembly
         RegisterAllocator allocator = new SpillingRegisterAllocator();
         String assembly = new CodeGenerator().generateCode(allocator, graphs);

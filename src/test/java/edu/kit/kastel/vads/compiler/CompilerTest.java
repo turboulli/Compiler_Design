@@ -325,7 +325,6 @@ public class CompilerTest {
     }
 
     @Test
-    @Disabled
     public void testBitwiseNot() {
         String input = """
             int main() {
@@ -336,8 +335,10 @@ public class CompilerTest {
         String expectedOutput = startupCode + """
         _main:
             movl $0, %0
-            notl %0
-            movl %0, %eax
+            movl %0, %edi
+            notl %edi
+            movl %edi, %1
+            movl %1, %eax
             ret
         """;
 

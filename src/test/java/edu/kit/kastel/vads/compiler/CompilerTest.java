@@ -349,6 +349,24 @@ public class CompilerTest {
     public void testDeclareBool() {
         String input = """
             int main() {
+                bool a;
+                return 0;
+            }
+        """;
+
+        String expectedOutput = startupCode + """
+        _main:
+            movl $0, %eax
+            ret
+        """;
+
+        assertEquals(expectedOutput, generateAbstractAssembly(input));
+    }
+
+    @Test
+    public void testDeclareAndInitializeBool() {
+        String input = """
+            int main() {
                 bool a = false;
                 return 0;
             }

@@ -403,6 +403,34 @@ public class CompilerTest {
     }
 
     @Test
+    public void testIfFalseBranch() {
+        String input = """
+            int main() {
+                if (false) {
+                    return 1;
+                }
+                return 2;
+            }
+        """;
+
+        String expectedOutput = startupCode + """
+        _main:
+            movl $0, %0
+            cmpl $0, %0
+            je l0
+            movl $2, %1
+            je l1
+        l0:
+            movl $1, %1
+        l1:
+            movl %1, %eax
+            ret
+        """;
+
+        assertEquals(expectedOutput, generateAbstractAssembly(input));
+    }
+
+    @Test
     public void testSpilling() {
         String input = """
         int main() {
